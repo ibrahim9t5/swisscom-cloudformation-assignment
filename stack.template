@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Cloudformation template for creating AWS S3 Bucket
+Description: Cloudformation template for creating AWS S3 Bucket with bucket Policy
 
 Parameters:
   BucketName:
@@ -20,9 +20,10 @@ Resources:
       Bucket: !Ref S3Bucket
       PolicyDocument:
         Statement:
-          - Sid: PublicReadGetObject
+          - Sid: RestrictBucketAccess
             Effect: Allow
-            Principal: "*"
+            Principal:
+              AWS: !GetAtt IAMRole.Arn  # Use the ARN of the IAM role here
             Action:
               - s3:GetObject
             Resource: !Join
@@ -30,6 +31,30 @@ Resources:
               - - "arn:aws:s3:::"
                 - !Ref S3Bucket
                 - "/*"
+
+  IAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3BucketAccessPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource: !Join
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - !Ref S3Bucket
+                    - "/*"
 
 Outputs:
   BucketARN:
