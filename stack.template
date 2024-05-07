@@ -17,6 +17,9 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+      LoggingConfiguration:
+        DestinationBucketName: !Sub ${BucketName}-s3
+        LogFilePrefix: accesslogs/
 
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
