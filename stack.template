@@ -14,6 +14,23 @@ Resources:
     Properties: 
       BucketName: !Sub ${BucketName}-s3
 
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action:
+              - s3:GetObject
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref S3Bucket
+                - "/*"
+
 Outputs:
   BucketARN:
     Description: The arn for the bucket that got created
