@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Cloudformation template for creating AWS S3 Bucket with bucket Policy
+Description: CloudFormation template for creating AWS S3 Bucket with restricted access
 
 Parameters:
   BucketName:
@@ -13,6 +13,10 @@ Resources:
     Type: AWS::S3::Bucket
     Properties: 
       BucketName: !Sub ${BucketName}-s3
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
 
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
