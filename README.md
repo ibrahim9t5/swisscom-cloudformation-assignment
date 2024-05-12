@@ -1,5 +1,10 @@
 # swisscom-cloudformation-assignment
 
+ASSIGNMENT:
+
+ In this assignment we kindly ask you to add additional security features to an existing cloudformation stack.
+ The current, basic cloudformation template doesn't contain any additional security featuress/configurations. Please have a look at the cfn-nag report. There are a couple of findings which have to be fixed. Please extend the cloudformation template accordingly.
+
 
 Pre-Requisite
 
@@ -38,12 +43,12 @@ aws --endpoint-url http://localhost:4566 s3api list-buckets
 
 ####Step 7) Run below command to check logs if there is any security report of cfn
 
-docker logs cfg-nag
+docker logs cfn-nag
 
 
 ##########################
 
 NOTE: to restart docker in case of any error during docker up run: docker-compose restart 
 
-NOTE: to recreate report run: docker-compose restart cfg-nag
+NOTE: to recreate report run: docker-compose restart cfn-nag
 
